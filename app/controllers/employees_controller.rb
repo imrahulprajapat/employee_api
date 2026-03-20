@@ -9,6 +9,13 @@ class EmployeesController < ApplicationController
     end
   end
 
+  def salary
+    employee = Employee.find(params[:id])
+    result = SalaryCalculator.calculate(employee)
+
+    render json: result, status: :ok
+  end
+
   private
 
   def employee_params
