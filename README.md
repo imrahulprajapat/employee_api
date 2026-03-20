@@ -1,24 +1,100 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### API Endpoints
+- Employee CRUD
+  - Create Employee
 
-Things you may want to cover:
+```POST /employees```
 
-* Ruby version
+Request Body
 
-* System dependencies
+```{
+  "employee": {
+    "full_name": "Rahul Prajapat",
+    "job_title": "Software Engineer",
+    "country": "India",
+    "salary": 1000
+  }
+}
+```
 
-* Configuration
+```Response (201 Created)```
 
-* Database creation
+```{
+  "id": 1,
+  "full_name": "Rahul Prajapat",
+  "job_title": "Software Engineer",
+  "country": "India",
+  "salary": "1000.0"
+}
+```
+   - Get All Employees
 
-* Database initialization
+  ```GET /employees```
 
-* How to run the test suite
+   - Get Employee by ID
 
-* Services (job queues, cache servers, search engines, etc.)
+```GET /employees/:id```
 
-* Deployment instructions
+    - Update Employee
 
-* ...
+```PATCH /employees/:id```
+
+    - Delete Employee
+
+```DELETE /employees/:id```
+
+#### Salary Calculation
+  - Calculate Net Salary
+
+```GET /employees/:id/salary```
+
+**Response**
+
+```{
+  "gross_salary": 1000.0,
+  "deduction": 100.0,
+  "net_salary": 900.0
+}
+```
+  - Deduction Rules
+    - Country	Deduction
+      India	10% TDS
+      United States	12% TDS
+      Others	0%
+  - Salary Metrics
+
+**Country Salary Metrics**
+
+```GET /employees/country_metrics?country=India```
+
+**Response**
+
+```{
+  "min": 1000.0,
+  "max": 2000.0,
+  "avg": 1500.0
+}
+```
+
+**Job Title Salary Metrics**
+
+```GET /employees/job_metrics?job_title=Software Engineer```
+
+**Response**
+
+```{
+  "avg": 1500.0
+}
+```
+
+### Run tests using:
+
+```bundle exec rspec
+```
+### Notes
+
+**All responses are in JSON format**
+Salary calculations are handled via a service object (SalaryCalculator)
+
+Metrics endpoints safely handle empty datasets
